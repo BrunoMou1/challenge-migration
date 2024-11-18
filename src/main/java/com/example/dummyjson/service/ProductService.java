@@ -1,30 +1,26 @@
 package com.example.dummyjson.service;
 
 import com.example.dummyjson.dto.Product;
+import com.example.dummyjson.config.ProductClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class ProductService {
 
-    private final String BASE_URL = "https://dummyjson.com/products";
-
     @Autowired
-    private RestTemplate restTemplate;
+    private ProductClient productClient;
 
-    public List<Product> getAllProducts() {
-        Product[] products = restTemplate.getForObject(BASE_URL, Product[].class);
-        return Arrays.asList(products);
+    @SuppressWarnings("unchecked")
+    public List<Map<String, Object>> getAllProducts() {
+        Map<String, Object> response = productClient.getAllProducts();
+        return (List<Map<String, Object>>) response.get("products");
     }
 
     public Product getProductById(Long id) {
-        String url = BASE_URL + "/" + id;
-        return restTemplate.getForObject(url, Product.class);
+        return productClient.getProductById(id);
     }
 }

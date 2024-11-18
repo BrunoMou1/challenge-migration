@@ -1,0 +1,7 @@
+/Users/bruno/Documents/code-challenge-migration/src/main/java/com/example/dummyjson/DummyJsonClientApplication.java
+/Users/bruno/Documents/code-challenge-migration/src/main/java/com/example/dummyjson/config/ProductClient.java
+/Users/bruno/Documents/code-challenge-migration/src/main/java/com/example/dummyjson/controller/HealthController.java
+/Users/bruno/Documents/code-challenge-migration/src/main/java/com/example/dummyjson/controller/ProductController.java
+/Users/bruno/Documents/code-challenge-migration/src/main/java/com/example/dummyjson/dto/Product.java
+/Users/bruno/Documents/code-challenge-migration/src/main/java/com/example/dummyjson/dto/ProductListResponse.java
+/Users/bruno/Documents/code-challenge-migration/src/main/java/com/example/dummyjson/service/ProductService.java

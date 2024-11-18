@@ -27,7 +27,7 @@ dummyjson-client
 │   │   │   └── com.example.dummyjsonclient
 │   │   │       ├── DummyJsonClientApplication.java
 │   │   │       ├── config
-│   │   │       │   └── RestTemplateConfig.java
+│   │   │       │   └── ProductClient.java
 │   │   │       ├── controller
 │   │   │       │   └── ProductController.java
 │   │   │       ├── dto

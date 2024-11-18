@@ -1,56 +1,66 @@
 package com.example.dummyjson.service;
 
 import com.example.dummyjson.dto.Product;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.web.client.RestTemplate;
+import com.example.dummyjson.config.ProductClient;
+import com.example.dummyjson.dto.ProductListResponse;
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.when;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 
-@RunWith(MockitoJUnitRunner.class)
+import java.util.Arrays;
+import java.util.Map;
+
+import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+@SpringBootTest
 public class ProductServiceTest {
+
+    @Mock
+    private ProductClient productClient;
 
     @InjectMocks
     private ProductService productService;
 
-    @Mock
-    private RestTemplate restTemplate;
-
     @Test
     public void testGetAllProducts() {
-        Product product1 = new Product();
-        product1.setId(1L);
-        product1.setTitle("Product 1");
+        Map<String, Object> mockedResponse = new HashMap<>();
+        List<Map<String, Object>> productsList = Arrays.asList(
+                Map.of("id", 1L, "title", "Product 1", "description", "Description 1", "price", 100.0),
+                Map.of("id", 2L, "title", "Product 2", "description", "Description 2", "price", 150.0)
+        );
+        mockedResponse.put("products", productsList);
 
-        Product product2 = new Product();
-        product2.setId(2L);
-        product2.setTitle("Product 2");
+        when(productClient.getAllProducts()).thenReturn(mockedResponse);
 
-        Product[] products = {product1, product2};
-        when(restTemplate.getForObject("https://dummyjson.com/products", Product[].class)).thenReturn(products);
+        List<Map<String, Object>> result = productService.getAllProducts();
 
-        List<Product> result = productService.getAllProducts();
         assertEquals(2, result.size());
-        assertEquals("Product 1", result.get(0).getTitle());
+        assertEquals("Product 1", result.get(0).get("title"));
+        assertEquals("Product 2", result.get(1).get("title"));
     }
+
+
 
     @Test
     public void testGetProductById() {
         Product product = new Product();
         product.setId(1L);
         product.setTitle("Product 1");
+        product.setDescription("Description 1");
+        product.setPrice(100.0);
 
-        when(restTemplate.getForObject("https://dummyjson.com/products/1", Product.class)).thenReturn(product);
+        when(productClient.getProductById(1L)).thenReturn(product);
 
         Product result = productService.getProductById(1L);
+
         assertEquals("Product 1", result.getTitle());
+        assertEquals("Description 1", result.getDescription());
+        assertEquals(100.0, result.getPrice());
     }
 }
